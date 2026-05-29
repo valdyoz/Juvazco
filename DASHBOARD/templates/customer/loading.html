@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Memproses{% endblock %}
+{% block content %}
+<main class="loading-page">
+    <div class="loader"></div>
+    <h1>Pesanan sedang diproses...</h1>
+    <p>Mohon tunggu sebentar.</p>
+</main>
+<script>
+    setTimeout(function(){ window.location.href = "{% url 'order_success' order_id %}"; }, 1800);
+</script>
+{% endblock %}

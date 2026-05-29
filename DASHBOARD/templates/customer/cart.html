@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Keranjang{% endblock %}
+{% block content %}
+<main class="cart-page">
+    <h1>Keranjang Belanja</h1>
+    <section class="cart-card">
+        {% for item in items %}
+            <div class="cart-row">
+                {% if item.product.gambar %}
+                    <img src="{{ item.product.gambar.url }}" alt="{{ item.product.nama_produk }}">
+                {% else %}
+                    <img src="{% static 'img/no-product.png' %}" alt="No Image">
+                {% endif %}
+                <div class="cart-info">
+                    <h3>{{ item.product.nama_produk }}</h3>
+                    <p>Jumlah: {{ item.jumlah }}</p>
+                </div>
+                <b>Rp{{ item.subtotal }}</b>
+                <a href="{% url 'remove_cart_item' item.id %}" class="delete-link">Hapus</a>
+            </div>
+        {% empty %}
+            <div class="empty-state">Keranjang masih kosong.</div>
+        {% endfor %}
+        <div class="cart-total">
+            <span>Total</span>
+            <b>Rp{{ total }}</b>
+            {% if items %}<a href="{% url 'checkout_cart' %}" class="buy-btn">Checkout</a>{% endif %}
+        </div>
+    </section>
+</main>
+{% endblock %}

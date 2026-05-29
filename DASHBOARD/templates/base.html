@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Juvazco Marketplace{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="topbar">
+            <a href="{% url 'home' %}" class="logo" style="display: flex; align-items: center; gap: 8px;">
+            <img src="{% static 'images/logo.png' %}" alt="Logo" style="height: 50px; width: auto;">
+            juvazco
+            </a>
+        <form class="top-search" action="{% url 'home' %}" method="get">
+            <select name="kategori" aria-label="Kategori">
+                <option>Semua Kategori</option>
+            </select>
+            <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Cari di Juvazco">
+            <button type="submit">⌕</button>
+        </form>
+        <nav class="top-actions">
+            <a href="{% url 'cart' %}" class="icon-link cart-badge">
+            🛒
+            <span class="cart-count" id="cart-count">0</span>
+            </a>
+            {% if request.session.is_login %}
+                {% if request.session.role == 'admin' %}
+                    <a href="{% url 'admin_dashboard' %}" class="btn-ghost">Admin</a>
+                {% endif %}
+                {% if request.session.role == 'customer' %}
+                    <a href="{% url 'customer_service' %}" class="btn-ghost">Customer Service</a>
+                {% endif %}
+                <a href="{% url 'logout' %}" class="btn-yellow">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn-ghost">Masuk</a>
+                <a href="{% url 'register' %}" class="btn-yellow">Register</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    {% if messages %}
+    <div class="message-wrap">
+        {% for message in messages %}
+            <div class="message {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-top">
+
+            <!-- Brand & Sosmed -->
+            <div class="footer-brand">
+                <h2>
+                    <img src="{% static 'images/logo.png' %}" alt="Logo">
+                    Juvazco Store
+                </h2>
+                <p>Platform belanja online sederhana, aman, dan terpercaya. Temukan produk terbaik dari seller pilihan kami.</p>
+                <div class="footer-socmed">
+                    <a href="#" title="Instagram">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+                    </a>
+                    <a href="#" title="Twitter">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2 2.25h6.945l4.274 5.645L18.244 2.25z"/></svg>
+                    </a>
+                    <a href="#" title="Facebook">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a href="#" title="WhatsApp">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.855L.057 23.5l5.797-1.501A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.894 0-3.662-.523-5.176-1.432l-.371-.22-3.844.995 1.02-3.741-.242-.384A9.944 9.944 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                    </a>
+                </div>
+                <a href="{% url 'developer' %}" class="dev-btn-footer">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    Developer Website
+                </a>
+            </div>
+
+            <!-- Kolom Informasi -->
+            <div class="footer-col">
+                <h4>Juvazco</h4>
+                <ul>
+                    <li><a href="#">Tentang Kami</a></li>
+                    <li><a href="#">Karir</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Promo</a></li>
+                    <li><a href="#">Kebijakan Privasi</a></li>
+                    <li><a href="#">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+
+            <!-- Kolom Layanan -->
+            <div class="footer-col">
+                <h4>Layanan</h4>
+                <ul>
+                    <li><a href="#">Cara Belanja</a></li>
+                    <li><a href="#">Cara Pembayaran</a></li>
+                    <li><a href="#">Lacak Pesanan</a></li>
+                    <li><a href="{% url 'customer_service' %}">Customer Service</a></li>
+                    <li><a href="#">Pusat Bantuan</a></li>
+                    <li><a href="#">Jadi Seller</a></li>
+                </ul>
+            </div>
+
+            <!-- Keunggulan & Download -->
+            <div class="footer-col">
+                <h4>Nikmati Keuntungan Spesial</h4>
+                <div class="footer-benefits">
+                    <div class="footer-benefit-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e90ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        <span>Belanja kapan saja & di mana saja</span>
+                    </div>
+                    <div class="footer-benefit-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e90ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <span>Transaksi aman & terpercaya</span>
+                    </div>
+                    <div class="footer-benefit-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e90ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        <span>Gratis Ongkir pembelian pertama</span>
+                    </div>
+                    <div class="footer-benefit-item">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e90ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        <span>Produk pilihan seller terpercaya</span>
+                    </div>
+                </div>
+                <div class="footer-appbtns">
+                    <a href="#" class="footer-appbtn">
+                        <img src="{% static 'images/google-play.png' %}" alt="Google Play" style="height: 83px; width: auto;">
+                    </a>
+                    <a href="#" class="footer-appbtn">
+                        <img src="{% static 'images/app-store.svg' %}" alt="App Store" style="height: 58px; width: auto; margin-left: 12px;">
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Pembayaran -->
+        <div class="footer-payment">
+            <div class="footer-payment-inner">
+                <div class="footer-pay-group">
+                    <p class="footer-pay-title">Pembayaran</p>
+                    <div class="footer-pay-logos">
+                        <div class="pay-badge"><img src="{% static 'images/ALFAMART.png' %}" alt="Alfamart"></div>
+                        <div class="pay-badge"><img src="{% static 'images/BCA.png' %}" alt="BCA"></div>
+                        <div class="pay-badge"><img src="{% static 'images/BNI.png' %}" alt="BNI"></div>
+                        <div class="pay-badge"><img src="{% static 'images/BRI.png' %}" alt="BRI"></div>
+                        <div class="pay-badge"><img src="{% static 'images/BSI.png' %}" alt="BSI"></div>
+                        <div class="pay-badge"><img src="{% static 'images/DANA.png' %}" alt="Dana"></div>
+                        <div class="pay-badge"><img src="{% static 'images/GOPAY.png' %}" alt="GoPay"></div>
+                        <div class="pay-badge"><img src="{% static 'images/INDOMARET.png' %}" alt="Indomaret"></div>
+                        <div class="pay-badge"><img src="{% static 'images/MANDIRI.png' %}" alt="Mandiri"></div>
+                        <div class="pay-badge"><img src="{% static 'images/MASTERCARD.svg' %}" alt="Mastercard"></div>
+                        <div class="pay-badge"><img src="{% static 'images/OVO.png' %}" alt="OVO"></div>
+                        <div class="pay-badge"><img src="{% static 'images/VISA.png' %}" alt="VISA"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div>© 2025 <span>Juvazco Store</span> — Tim <span>Altar Leonidas</span>. All rights reserved.</div>
+            <div class="footer-badges">
+                <span class="footer-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    Aman
+                </span>
+                <span class="footer-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Terpercaya
+                </span>
+                <span class="footer-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    Cepat
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

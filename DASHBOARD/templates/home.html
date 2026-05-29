@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Juvazco Marketplace{% endblock %}
+{% block content %}
+
+<section class="hero-market">
+    <h1>Coba dulu aja, ada <span>Gratis Ongkir</span> untuk<br>Pembelian Pertamamu</h1>
+    <p>Belanja produk pilihan dengan tampilan sederhana, aman, dan mudah dipahami.</p>
+    <a href="#produk" class="hero-btn">Eksplor Semua Produk</a>
+</section>
+
+<!-- Keunggulan -->
+<div class="keunggulan-bar">
+    <div class="keunggulan-item">
+        <div class="keunggulan-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e90ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+            <h4>Transaksi Aman</h4>
+            <p>Data & pembayaran kamu terlindungi penuh</p>
+        </div>
+    </div>
+    <div class="keunggulan-divider"></div>
+    <div class="keunggulan-item">
+        <div class="keunggulan-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e90ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+        <div>
+            <h4>Pengiriman Cepat</h4>
+            <p>Pesanan diproses dan dikirim hari yang sama</p>
+        </div>
+    </div>
+    <div class="keunggulan-divider"></div>
+    <div class="keunggulan-item">
+        <div class="keunggulan-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e90ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div>
+            <h4>Produk Terpercaya</h4>
+            <p>Semua produk dikurasi langsung oleh admin</p>
+        </div>
+    </div>
+</div>
+
+<section class="banner-slider" aria-label="Banner Promo">
+    <div class="slider-track">
+        <img src="{% static 'background_images/foto1.png' %}" alt="Banner 1">
+        <img src="{% static 'background_images/foto2.png' %}" alt="Banner 2">
+        <img src="{% static 'background_images/foto3.png' %}" alt="Banner 3">
+    </div>
+</section>
+<div class="slider-dots">
+    <span class="dot dot-1"></span>
+    <span class="dot dot-2"></span>
+    <span class="dot dot-3"></span>
+</div>
+
+<section class="product-section" id="produk">
+    <div class="section-heading">
+        <h2>Produk Terbaru</h2>
+        <p>Produk yang di-upload oleh admin akan tampil otomatis di sini.</p>
+    </div>
+
+    <!-- FILTER SECTION -->
+    <div class="filter-section">
+        <div class="filter-tabs" id="categoryTabs">
+            <button class="filter-tab active" onclick="filterCategory(this, '')">Semua</button>
+        </div>
+        <div class="filter-row">
+            <label>Harga:</label>
+            <input type="number" id="minHarga" placeholder="Min" min="0">
+            <span style="color:#777">—</span>
+            <input type="number" id="maxHarga" placeholder="Max" min="0">
+            <label>Seller:</label>
+            <select id="sellerFilter">
+                <option value="">Semua Seller</option>
+            </select>
+            <button class="filter-btn" onclick="applyFilter()">Terapkan</button>
+            <button class="filter-reset" onclick="resetFilter()">Reset</button>
+            <span class="filter-count" id="filterCount"></span>
+        </div>
+    </div>
+
+    <div class="product-grid-clean">
+        {% for product in products %}
+            <a href="{% url 'product_detail' product.id %}" class="clean-card" data-kategori="{{ product.kategori }}">
+                <div class="clean-image">
+                    {% if product.gambar %}
+                        <img src="{{ product.gambar.url }}" alt="{{ product.nama_produk }}">
+                    {% else %}
+                        <img src="{% static 'img/no-product.png' %}" alt="No Image">
+                    {% endif %}
+                </div>
+                <h3>{{ product.nama_produk }}</h3>
+                <div class="card-price">Rp{{ product.harga_int }}</div>
+                <div class="card-seller">
+                    <img src="{% static 'PHOTO_ADMIN/' %}{{ product.seller_photo }}" alt="Seller">
+                    <span>Seller {{ product.seller_name }}</span>
+                </div>
+            </a>
+        {% empty %}
+            <div class="empty-state">Belum ada produk. Login admin untuk upload produk.</div>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.clean-card');
+    const tabs = document.getElementById('categoryTabs');
+    const seen = new Set();
+    cards.forEach(card => {
+        const kat = card.dataset.kategori;
+        if (kat && !seen.has(kat)) {
+            seen.add(kat);
+            const btn = document.createElement('button');
+            btn.className = 'filter-tab';
+            btn.textContent = kat;
+            btn.onclick = function() { filterCategory(this, kat); };
+            tabs.appendChild(btn);
+        }
+    });
+
+    // Isi seller tanpa duplikat
+    const sellerSelect = document.getElementById('sellerFilter');
+    const seenSeller = new Set();
+    cards.forEach(card => {
+        const seller = card.querySelector('.card-seller span').innerText.replace('Seller ', '');
+        if (seller && !seenSeller.has(seller)) {
+            seenSeller.add(seller);
+            const opt = document.createElement('option');
+            opt.value = seller;
+            opt.textContent = seller;
+            sellerSelect.appendChild(opt);
+        }
+    });
+});
+
+let activeCategory = '';
+
+function filterCategory(btn, kategori) {
+    activeCategory = kategori;
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilter();
+}
+
+function applyFilter() {
+    const min = parseInt(document.getElementById('minHarga').value) || 0;
+    const max = parseInt(document.getElementById('maxHarga').value) || Infinity;
+    const seller = document.getElementById('sellerFilter').value.toLowerCase();
+    const cards = document.querySelectorAll('.clean-card');
+    let count = 0;
+
+    cards.forEach(card => {
+        const harga = parseInt(card.querySelector('.card-price').innerText.replace(/\D/g,''));
+        const cardSeller = card.querySelector('.card-seller span').innerText.toLowerCase();
+        const cardKategori = card.dataset.kategori || '';
+
+        const matchHarga = harga >= min && harga <= max;
+        const matchSeller = seller === '' || cardSeller.includes(seller);
+        const matchKategori = activeCategory === '' || cardKategori === activeCategory;
+
+        if (matchHarga && matchSeller && matchKategori) {
+            card.style.display = 'block';
+            count++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    document.getElementById('filterCount').innerText = count + ' produk ditemukan';
+}
+
+function resetFilter() {
+    document.getElementById('minHarga').value = '';
+    document.getElementById('maxHarga').value = '';
+    document.getElementById('sellerFilter').value = '';
+    activeCategory = '';
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.filter-tab').classList.add('active');
+    document.querySelectorAll('.clean-card').forEach(c => c.style.display = 'block');
+    document.getElementById('filterCount').innerText = '';
+}
+</script>
+
+{% endblock %}

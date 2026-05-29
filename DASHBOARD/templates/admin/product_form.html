@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}{{ mode }} Produk{% endblock %}
+{% block content %}
+<main class="form-page">
+    <form method="post" enctype="multipart/form-data" class="admin-form-card">
+        {% csrf_token %}
+        <p class="mini-label">ADMIN PRODUCT</p>
+        <h1>{{ mode }} Produk</h1>
+        {{ form.as_p }}
+        <button type="submit" class="buy-btn full">Simpan Produk</button>
+        <a href="{% url 'admin_dashboard' %}" class="outline-btn full">Kembali</a>
+    </form>
+</main>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<main class="auth-page">
+    <div class="auth-card">
+        <p class="mini-label">REGISTER DISPLAY</p>
+        <h1>Register Customer</h1>
+        <p class="muted">Halaman register ini hanya tampilan. Akun customer masih diatur dari file AdminUser.py.</p>
+        <input type="text" placeholder="Nama lengkap" disabled>
+        <input type="text" placeholder="Username" disabled>
+        <input type="email" placeholder="Email" disabled>
+        <input type="password" placeholder="Password" disabled>
+        <button type="button" disabled>Register belum diaktifkan</button>
+    </div>
+</main>
+{% endblock %}

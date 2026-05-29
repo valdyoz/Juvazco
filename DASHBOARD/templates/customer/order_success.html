@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Sukses{% endblock %}
+{% block content %}
+<main class="success-page">
+    <div class="success-card">
+        <div class="success-icon">✓</div>
+        <h1>Pesanan Berhasil</h1>
+        <p>Pesanan masuk ke dashboard admin.</p>
+        <div class="receipt">
+            <p><b>ID Pesanan:</b> #{{ order.id }}</p>
+            <p><b>Nama:</b> {{ order.nama_customer }}</p>
+            <p><b>Total:</b> Rp{{ order.total }}</p>
+            <p><b>Status:</b> {{ order.status }}</p>
+        </div>
+        <a href="{% url 'home' %}" class="buy-btn">Kembali Belanja</a>
+    </div>
+</main>
+{% endblock %}

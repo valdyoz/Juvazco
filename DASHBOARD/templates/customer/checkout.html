@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Checkout{% endblock %}
+{% block content %}
+<main class="checkout-page">
+    <section class="checkout-summary">
+        <h1>Checkout Pesanan</h1>
+        {% for item in items %}
+            <div class="summary-row">
+                <span>{{ item.product.nama_produk }} x {{ item.jumlah }}</span>
+                <b>Rp{{ item.subtotal }}</b>
+            </div>
+        {% endfor %}
+        <div class="summary-total">Total: Rp{{ total }}</div>
+    </section>
+
+    <form method="post" class="checkout-form">
+        {% csrf_token %}
+        {% if direct_product %}
+            <input type="hidden" name="submit_checkout" value="1">
+            <input type="hidden" name="jumlah" value="{{ direct_jumlah }}">
+        {% endif %}
+        <label>Pilih Daerah</label>
+        <input list="daerah-list" name="daerah" placeholder="Cari daerah seluruh Indonesia" required>
+        <datalist id="daerah-list">
+            {% for item in daerah %}<option value="{{ item }}">{% endfor %}
+        </datalist>
+        <label>Alamat Lengkap</label>
+        <textarea name="alamat_lengkap" rows="4" placeholder="Nama jalan, nomor rumah, kecamatan" required></textarea>
+        <label>No HP</label>
+        <input type="text" name="no_hp" placeholder="08xxxxxxxxxx" required>
+        <label>Metode Pembayaran</label>
+        <select name="metode_pembayaran">
+            <option value="COD">COD</option>
+            <option value="Transfer Bank">Transfer Bank</option>
+            <option value="E-Wallet">E-Wallet</option>
+        </select>
+        <label>Catatan</label>
+        <textarea name="catatan" rows="3" placeholder="Opsional"></textarea>
+        <div class="captcha-box">
+            <b>Verifikasi Captcha</b>
+            <p>Berapa hasil dari {{ captcha }}?</p>
+            <input type="number" name="captcha" placeholder="Jawaban" required>
+        </div>
+        <button type="submit" class="buy-btn full">Proses Pesanan</button>
+    </form>
+</main>
+{% endblock %}

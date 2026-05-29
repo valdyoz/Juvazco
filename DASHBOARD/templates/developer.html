@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer — Altar Leonidas</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/developer.css' %}">
+</head>
+<body class="dev-page">
+
+    <div class="dev-hero">
+        <a href="{% url 'home' %}" class="dev-back">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            Kembali ke Juvazco
+        </a>
+        <div class="dev-logo-wrap">
+            <img src="{% static 'images/altar-leonidas.png' %}" alt="Altar Leonidas" class="dev-team-logo">
+        </div>
+        <p class="dev-subtitle">Tim pengembang di balik <span>Juvazco Store</span></p>
+        <p class="dev-desc">Kami adalah mahasiswa Teknik Informatika yang membangun platform e-commerce ini sebagai Final Project mata kuliah Pemrograman Berorientasi Objek.</p>
+    </div>
+
+    <div class="dev-members">
+        <div class="dev-card">
+            <div class="dev-photo-wrap">
+                <div class="dev-photo-ring">
+                    <img src="{% static 'images/team/valdy.png' %}" alt="Valdy" class="dev-photo">
+                </div>
+                <div class="dev-badge-role">Web Developer</div>
+            </div>
+            <div class="dev-info">
+                <h3>Valdy</h3>
+                <p class="dev-nim">NIM: 25051204048</p>
+                <p class="dev-prodi">Teknik Informatika</p>
+                <p class="dev-univ">Universitas Negeri Surabaya</p>
+            </div>
+        </div>
+
+        <div class="dev-card">
+            <div class="dev-photo-wrap">
+                <div class="dev-photo-ring">
+                    <img src="{% static 'images/team/juan.png' %}" alt="Juan" class="dev-photo">
+                </div>
+                <div class="dev-badge-role">Web Developer</div>
+            </div>
+            <div class="dev-info">
+                <h3>Juan</h3>
+                <p class="dev-nim">NIM: 25051204197</p>
+                <p class="dev-prodi">Teknik Informatika</p>
+                <p class="dev-univ">Universitas Negeri Surabaya</p>
+            </div>
+        </div>
+
+        <div class="dev-card">
+            <div class="dev-photo-wrap">
+                <div class="dev-photo-ring">
+                    <img src="{% static 'images/team/aziz.png' %}" alt="Aziz" class="dev-photo">
+                </div>
+                <div class="dev-badge-role">Web Developer</div>
+            </div>
+            <div class="dev-info">
+                <h3>Aziz</h3>
+                <p class="dev-nim">NIM: 25051204179</p>
+                <p class="dev-prodi">Teknik Informatika</p>
+                <p class="dev-univ">Universitas Negeri Surabaya</p>
+            </div>
+        </div>
+
+        <div class="dev-card">
+            <div class="dev-photo-wrap">
+                <div class="dev-photo-ring">
+                    <img src="{% static 'images/team/zico.png' %}" alt="Zico" class="dev-photo">
+                </div>
+                <div class="dev-badge-role">Web Developer</div>
+            </div>
+            <div class="dev-info">
+                <h3>Zico</h3>
+                <p class="dev-nim">NIM: 25051204133</p>
+                <p class="dev-prodi">Teknik Informatika</p>
+                <p class="dev-univ">Universitas Negeri Surabaya</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="dev-footer">
+        <p>© 2025 <strong>Altar Leonidas</strong> · Juvazco Store · Teknik Informatika</p>
+    </div>
+
+</body>
+</html>

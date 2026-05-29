@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard Admin{% endblock %}
+{% block content %}
+<main class="admin-layout">
+    <aside class="admin-sidebar">
+        <h2>JUVAZCO</h2>
+        <a class="active" href="{% url 'admin_dashboard' %}">Dashboard</a>
+        <a href="{% url 'admin_product_add' %}">Upload Produk</a>
+        <a href="{% url 'admin_orders' %}">Order</a>
+        <a href="{% url 'home' %}">Lihat Website</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </aside>
+    <section class="admin-main">
+        <div class="admin-hero">
+            <div>
+                <p class="mini-label">ADMIN PANEL</p>
+                <h1>DASHBOARD ADMIN JUVAZCO</h1>
+                <p>Kelola produk, upload gambar, dan lihat pesanan customer.</p>
+            </div>
+            <a href="{% url 'admin_product_add' %}" class="buy-btn">+ Upload Produk</a>
+        </div>
+        <div class="admin-stats">
+            <div><span>Total Produk</span><b>{{ total_produk }}</b></div>
+            <div><span>Total Pesanan</span><b>{{ total_pesanan }}</b></div>
+            <div><span>Total Customer</span><b>{{ total_customer }}</b></div>
+            <div><span>Pendapatan</span><b>Rp{{ total_pendapatan }}</b></div>
+        </div>
+        <div class="admin-card">
+            <h2>Produk Upload Admin</h2>
+            <table>
+                <thead><tr><th>Gambar</th><th>Nama</th><th>Harga</th><th>Stok</th><th>Seller</th><th>Aksi</th></tr></thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{% if product.gambar %}<img class="admin-thumb" src="{{ product.gambar.url }}">{% else %}-{% endif %}</td>
+                        <td>{{ product.nama_produk }}</td>
+                        <td>Rp{{ product.harga_int }}</td>
+                        <td>{{ product.stok }}</td>
+                        <td>{{ product.seller_name }}</td>
+                        <td>
+                            <a class="small-action" href="{% url 'admin_product_edit' product.id %}">Edit</a>
+                            <a class="small-action danger" href="{% url 'admin_product_delete' product.id %}" onclick="return confirm('Hapus produk?')">Hapus</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="6">Belum ada produk.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+{% endblock %}

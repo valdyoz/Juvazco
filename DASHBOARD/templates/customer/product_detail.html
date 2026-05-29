@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ product.nama_produk }}{% endblock %}
+{% block content %}
+<main class="detail-layout">
+    <section class="detail-image-card">
+        {% if product.gambar %}
+            <img src="{{ product.gambar.url }}" alt="{{ product.nama_produk }}">
+        {% else %}
+            <img src="{% static 'img/no-product.png' %}" alt="No Image">
+        {% endif %}
+    </section>
+
+    <section class="detail-info-card">
+        <h1>{{ product.nama_produk }}</h1>
+        <div class="detail-price">Rp{{ product.harga_int }}</div>
+        <div class="detail-meta">
+            <span>⭐ 5.0</span>
+            <span>Stok: {{ product.stok }}</span>
+            <span>Kondisi Baru</span>
+        </div>
+        <div class="seller-box">
+            <img src="{% static 'PHOTO_ADMIN/' %}{{ product.seller_photo }}" alt="{{ product.seller_name }}">
+            <div>
+                <b>Seller {{ product.seller_name }}</b>
+                <p>Online • Produk resmi toko</p>
+            </div>
+            <button class="chat-disabled" type="button" disabled>Chat Seller</button>
+        </div>
+
+        <form method="post" action="{% url 'add_to_cart' product.id %}" class="detail-actions">
+            {% csrf_token %}
+            <input type="number" name="jumlah" min="1" value="1">
+            <button type="submit" class="outline-btn">Tambah ke Keranjang</button>
+        </form>
+        <form method="post" action="{% url 'checkout_direct' product.id %}" class="direct-form">
+            {% csrf_token %}
+            <input type="hidden" name="jumlah" value="1">
+            <button type="submit" class="buy-btn">Checkout Langsung</button>
+        </form>
+
+        <div class="description-box">
+            <h2>Deskripsi</h2>
+            <p>{{ product.deskripsi|default:'Deskripsi produk belum diisi oleh admin.' }}</p>
+        </div>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Order Admin{% endblock %}
+{% block content %}
+<main class="admin-layout">
+    <aside class="admin-sidebar">
+        <h2>JUVAZCO</h2>
+        <a href="{% url 'admin_dashboard' %}">Dashboard</a>
+        <a class="active" href="{% url 'admin_orders' %}">Order</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </aside>
+    <section class="admin-main">
+        <div class="admin-card">
+            <h1>Data Pesanan</h1>
+            {% for order in orders %}
+                <div class="order-box">
+                    <h3>#{{ order.id }} - {{ order.nama_customer }}</h3>
+                    <p>{{ order.daerah }} | {{ order.alamat_lengkap }}</p>
+                    <p>No HP: {{ order.no_hp }} | Total: Rp{{ order.total }} | Status: {{ order.status }}</p>
+                    {% for item in order.items.all %}
+                        <small>{{ item.nama_produk }} x {{ item.jumlah }} = Rp{{ item.subtotal }}</small><br>
+                    {% endfor %}
+                </div>
+            {% empty %}
+                <p>Belum ada pesanan.</p>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<main class="auth-page">
+    <form method="post" class="auth-card">
+        {% csrf_token %}
+
+        <div class="auth-logo-wrap">
+            <div class="auth-logo-shimmer-wrap">
+                <img src="{% static 'images/logo.juvazco.png' %}" alt="Juvazco Logo" class="auth-logo-img">
+                <div class="shimmer-beam"></div>
+            </div>
+        </div>
+
+        <p class="mini-label">JUVAZCO ACCOUNT</p>
+        <h1>Masuk Akun</h1>
+        <p class="auth-sub">Selamat datang kembali! Silakan login untuk melanjutkan.</p>
+
+        <label>Username / Email</label>
+        <div class="input-icon-wrap">
+            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2196f3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+            <input type="text" name="username_or_email" placeholder="adminjuvazco / user1" required>
+        </div>
+
+        <label>Password</label>
+        <div class="input-icon-wrap">
+            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2196f3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <input type="password" name="password" placeholder="Masukkan password" required>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="auth-error">⚠️ {{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <button type="submit" class="login-btn">
+            <span>Masuk Sekarang</span>
+        </button>
+
+        <div class="login-note">
+            <b>Demo Login:</b><br>
+            Admin: <code>adminjuvazco / unesa</code><br>
+            Customer: <code>user1 / user1</code>
+        </div>
+    </form>
+</main>
+{% endblock %}
